@@ -1,5 +1,11 @@
 version: "3.8"
 
 services:
-  event-store:
-    image: eventstore/eventstore:latest
+  message_db:
+    image: ethangarofolo/message-db:1.1.6
+  record_viewings:
+    build: ./apps/record_viewings
+    environment:
+      MESSAGE_DB_ADDR: message_db
+      MESSAGE_DB_PORT: 5432
+      LISTEN_ADDR: :8080
