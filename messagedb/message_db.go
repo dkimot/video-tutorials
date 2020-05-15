@@ -33,7 +33,7 @@ type messageDB struct {
 	db *pg.DB
 }
 
-func (msgDB *messageDB) Write(streamName string, msg pkg.Message, expVersion string) error {
+func (msgDB *messageDB) Write(streamName string, msg pkg.Message, _ *string) error {
 	payloadStr, err := json.Marshal(msg.Payload)
 	if err != nil {
 		return err
