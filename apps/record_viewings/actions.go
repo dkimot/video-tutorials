@@ -3,18 +3,16 @@ package recordviewings
 import (
 	"context"
 
-	goes "github.com/jetbasrawi/go.geteventstore"
-
 	vidtuts "github.com/dkimot/video-tutorials"
 	"github.com/dkimot/video-tutorials/pkg"
 )
 
 type actions struct {
-	es goes.Client
+	msgStore pkg.MessageStore
 }
 
-func newActions(es goes.Client) *actions {
-	return &actions{es: es}
+func newActions(msgStore pkg.MessageStore) *actions {
+	return &actions{msgStore: msgStore}
 }
 
 func (a *actions) recordViewing(ctx context.Context, videoID string) error {
@@ -25,7 +23,6 @@ func (a *actions) recordViewing(ctx context.Context, videoID string) error {
 	}
 
 	streamName := "viewing-" + viewedEv.VideoID
-	writer := a.es.NewStreamWriter(streamName)
 
-	return a.msgStore.Write(streamName, viewedEv.Message)
+	return a.msgStore.Write(streamName, viewedEv.Message, nil)
 }
